@@ -1,0 +1,17 @@
+$TTL 10m
+@	IN	SOA	gate02.ffpi. hostmaster.ffpi. (
+			2015060901	; <yyyymmdd><serial> serial number of this zone file
+			1h		; slave refresh
+			3m		; slave retry time in case of a problem
+			1h		; slave expiration time
+			1m )		; minimum cache ttl
+
+		NS	gate01.ffpi.
+		NS	gate02.ffpi.
+		NS	gate03.ffpi.
+
+10.1		PTR	gate01.ffpi.
+11.1		PTR	gate02.ffpi.
+12.1		PTR	gate03.ffpi.
+
+1.10		PTR	srv01.ffpi.

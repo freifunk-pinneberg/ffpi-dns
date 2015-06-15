@@ -1,0 +1,43 @@
+$ORIGIN ffpi.
+$TTL 30m ; FIXME: Sobald alles läuft auf ein paar Tage erhöhen!
+@	IN	SOA	gate02.ffpi. hostmaster.ffpi. (
+			2015061103	; <yyyymmdd><serial> serial number of this zone file
+			1h		; slave refresh
+			3m		; slave retry time in case of a problem
+			1h		; slave expiration time
+			1m )		; minimum cache ttl
+
+; nameservers
+			NS	gate01.ffpi.
+			NS	gate02.ffpi.
+			NS	gate03.ffpi.
+
+; magic
+node			A	10.137.0.1
+			AAAA	fde8:21c6:9d82::1
+
+; gateways
+gate01			A 	10.137.10.1
+			AAAA	fde8:21c6:9d82::0a01
+;			AAAA	2001:bf7:70::0a01
+
+gate02			A 	10.137.11.1
+			AAAA	fde8:21c6:9d82::0b01
+;			AAAA	2001:bf7:70::0a02
+
+gate03			A 	10.137.12.1
+			AAAA	fde8:21c6:9d82::0c01
+;			AAAA	2001:bf7:70::0a03
+
+; services (no CNAMEs to make this IPv6 only)
+1.ntp.services		AAAA	fde8:21c6:9d82::0a01
+			AAAA	fde8:21c6:9d82::0b01
+			AAAA	fde8:21c6:9d82::0c01
+
+1.updates.services	AAAA	fde8:21c6:9d82::0a01 ; gate01
+
+; servers
+srv01			A	10.137.1.10
+			AAAA	fde8:21c6:9d82::0a01 ; gate01
+wiki			A	10.137.1.10
+			AAAA	fde8:21c6:9d82::0a01 ; gate01
