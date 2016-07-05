@@ -1,0 +1,4 @@
+; v6 reverse zone
+$TTL 3h
+
+1.0.0.0.0.0.0.0.0.0.0.0.0.0.0.0		PTR	nextnode.ffpi.

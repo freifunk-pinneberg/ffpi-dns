@@ -1,0 +1,69 @@
+;
+; Zone file for domain freifunk-pinneberg.de
+;
+; Edition History
+; ===============
+;
+;  Date         Changes                                               by 
+; ------------ ----------------------------------------------------- -----
+;  2015-06-27   Zonendatei erstellt                                   tho
+;  2015-06-28   SOA-Zeiten eingestellt                                tho
+;  2015-07-21   ns2 auf gate01 umgestellt, da gate05 kein IPv6 kann   tho
+;  2015-07-28   IPv6-Adressen für gate01 und gate03 hinzugefügt 
+;               und deaktiviert weil sie nicht bei 1blue gehen :-(    tho
+;  2015-09-14   Mail auf gate04 umgestellt                            tho
+;  2015-10-24   Servernamen für Intercity-VPN eingerichtet            tho
+;  2016-01-24   Umzug gate03 auf neuen Server (servdiscount)          tho
+;
+
+;
+$ORIGIN freifunk-pinneberg.de.
+$TTL 1D
+@	IN	SOA	ns1.freifunk-pinneberg.de hostmaster.freifunk-pinneberg.de. (
+			2016012401	; <yyyymmdd><serial> serial number of this zone file
+			4h		; slave refresh
+			30m		; slave retry time in case of a problem
+			7d		; slave expiration time
+			5m )		; nxdomain ttl
+;
+		NS	ns1.freifunk-pinneberg.de.
+		NS	ns2.freifunk-pinneberg.de.
+		MX	10 mail.freifunk-pinneberg.de.
+		TXT	"Freifunk Community Pinneberg, Germany"
+
+;
+localhost	A	127.0.0.1
+@		A	213.133.108.18
+		AAAA	2a01:4f8:130:6372::2
+
+ns1		A	213.133.108.18
+;1blue not supportet	AAAA	2a01:4f8:130:6372::2
+ns2		A	81.7.16.37
+;1blue not supportet	AAAA	2a02:180:1:1::517:1025
+
+; ex. 1blue
+; mail		A	178.254.4.101
+
+mail		A	213.133.108.18
+imap		CNAME	mail
+smtp		CNAME	mail	
+www		A	213.133.108.18
+		AAAA	2a01:4f8:130:6372::2
+
+; Freifunk sonst.
+forum		A	85.13.135.113
+download	A	85.114.135.191
+
+; ffpi
+gate01		A	81.7.16.37
+		AAAA	2a02:180:1:1::517:1025
+gate03		A	85.114.135.191
+		AAAA	2001:4ba0:fff5:ab::1
+gate04		A	213.133.108.18
+		AAAA	2a01:4f8:130:6372::2
+gate05		A	217.172.186.141
+
+icvpn1		A	81.7.16.37
+		AAAA	2a02:0180:1:1::517:1025
+icvpn2		A	213.133.108.18
+		AAAA    2a01:4f8:130:6372::2

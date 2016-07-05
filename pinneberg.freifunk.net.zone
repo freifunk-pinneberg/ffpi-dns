@@ -1,0 +1,96 @@
+; Zone file for domain pinneberg.freifunk.net
+;
+; Edition History
+; ===============
+;
+;  Date         Changes                                               by 
+; ------------ ----------------------------------------------------- -----
+;  2015-06-22   Zonendatei erstellt                                   tho
+;  2015-06-28   SOA-Zeiten eingestellt                                tho
+;  2015-07-04   Verschiedene Dienste als Subdomain                    tho
+;  2015-07-05	Piwik, ipv6					      kevin
+;  2015-07-07   Mail eingerichtet                                     tho 
+;  2015-07-12   Service eingerichtet (Ticketsystem)                   tho
+;  2015-07-21   ns2 auf gate01 umgestellt da gate05 kein IPv6 kann    tho
+;  2015-08-08   xmpp eingebaut (auf srv02.ffpi)                       tho
+;  2015-09-19   pad eingebaut                                         tho
+;  2015-10-24   Servernamen für Intercity-VPN eingerichtet            tho
+;  2015-11-10   map eingebaut, u.a. neue Haimat für den PosPicker     tho
+;  2015-12-13	gw04 als Download Mirror, tracker		      kevin
+;  2016-01-24   Umzug gate03 auf neuen Server (servdiscount)          tho
+;  2016-04-05   Pad auf Gate04 redirected			      michel
+;  2016-04-26   groups.xmpp hinzugefügt für xmpp chat rooms           michel
+;
+
+;
+$ORIGIN pinneberg.freifunk.net.
+$TTL 1D
+@	IN	SOA	ns1.pinneberg.freifunk.net. hostmaster.pinneberg.freifunk.net. (
+			2016042601	; <yyyymmdd><serial>
+			8h		; refresh
+			30m		; retry
+			1w		; expire
+			15m )		; nxdomain ttl
+;
+		NS	ns1.pinneberg.freifunk.net.
+		NS	ns2.pinneberg.freifunk.net.
+		NS	ns3.pinneberg.freifunk.net.
+		MX	50 mail.pinneberg.freifunk.net.
+		TXT	"Freifunk Community Pinneberg, Germany"
+
+;
+localhost	A	127.0.0.1
+@		A	213.133.108.18
+		AAAA	2a01:4f8:130:6372::2
+
+mail		A	213.133.108.18
+		AAAA	2a01:4f8:130:6372::2
+imap		CNAME	mail
+
+ns1		A	213.133.108.18
+		AAAA    2a01:4f8:130:6372::2
+ns2		A	81.7.16.37
+		AAAA	2a02:180:1:1::517:1025
+ns3		A	85.114.135.191
+		AAAA	2001:4ba0:fff5:ab::1
+
+gate01		A	81.7.16.37
+		AAAA	2a02:0180:1:1::517:1025
+gw01		A	81.7.16.37
+		AAAA	2a02:0180:1:1::517:1025
+gate03		A	85.114.135.191
+		AAAA	2001:4ba0:fff5:ab::1
+gw03		A	85.114.135.191
+		AAAA	2001:4ba0:fff5:ab::1
+gate04		A	213.133.108.18
+		AAAA    2a01:4f8:130:6372::2
+gw04		A	213.133.108.18
+		AAAA    2a01:4f8:130:6372::2
+gate05		A	217.172.186.141
+gw05		A	217.172.186.141
+		
+icvpn1		A	81.7.16.37
+		AAAA	2a02:0180:1:1::517:1025
+icvpn2		A	213.133.108.18
+		AAAA    2a01:4f8:130:6372::2
+
+www		A	213.133.108.18
+		AAAA	2a01:4f8:130:6372::2
+forum		A	213.133.108.18
+		AAAA    2a01:4f8:130:6372::2
+piwik		A	213.133.108.18
+		AAAA    2a01:4f8:130:6372::2
+service		A	213.133.108.18
+		AAAA    2a01:4f8:130:6372::2
+
+
+map		A	85.114.135.191
+meshviewer	A	85.114.135.191
+wiki		A	85.114.135.191
+		TXT	"google-site-verification=MABCgHjc75R_OXj1VSwloTu_V_Mg7nvGXKBQzHb70W4"
+download	A	85.114.135.191
+gate04.download	CNAME	gate04
+tracker		CNAME	gate04
+xmpp		A	5.9.177.34
+groups.xmpp     CNAME   xmpp
+pad		CNAME	gate04

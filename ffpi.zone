@@ -1,43 +1,113 @@
-$ORIGIN ffpi.
-$TTL 30m ; FIXME: Sobald alles läuft auf ein paar Tage erhöhen!
-@	IN	SOA	gate02.ffpi. hostmaster.ffpi. (
-			2015061103	; <yyyymmdd><serial> serial number of this zone file
-			1h		; slave refresh
-			3m		; slave retry time in case of a problem
-			1h		; slave expiration time
-			1m )		; minimum cache ttl
+; Zone file for domain ffpi
+;
+; Edition History
+; ===============
+;
+;  Date         Changes                                               by 
+; ------------ ----------------------------------------------------- -----
+;  2015-06-22   Zonendatei erstellt                                   tho
+;  2015-08-08   xmpp eingebaut (auf srv02.ffpi)                       tho
+;  2015-08-20   ldap eingebaut und Server alpabetisch sortiert        tho
+;  2015-08-22   SRV-Records angelegt für ldap und xmpp                tho
+;  2015-09-19   pad integriert                                        kevin
+;  2015-11-14   1.download.services für u.a. OpenWRT Pakete           tho
+;  2015-12-09	1.tracker Torrent Tracker (Testbetrieb)		      kevin
+;  2016-01-24   map hinzugefügt                                       tho
+;  2016-02-13	Speedtest					      kevin
+;  2016-02-24   Elbecam Kollmar vorbereitet                           tho
+;  2016-04-24	nic.ffpi					      kevin
+;
 
-; nameservers
-			NS	gate01.ffpi.
-			NS	gate02.ffpi.
-			NS	gate03.ffpi.
+;
+$ORIGIN ffpi.
+$TTL 1D
+@	IN	SOA	ns1.ffpi. hostmaster.ffpi. (
+			2016042401	; <yyyymmdd><serial> serial number of this zone file
+			8h		; slave refresh
+			30m		; slave retry time in case of a problem
+			1w		; slave expiration time
+			15m )		; nxdomain ttl
+;
+		NS	ns1.ffpi.
+		NS	ns2.ffpi.
+		NS	ns3.ffpi.
+
+		MX	50 mail.ffpi.
 
 ; magic
-node			A	10.137.0.1
-			AAAA	fde8:21c6:9d82::1
+node		A	10.137.0.1
+		AAAA	fde8:21c6:9d82::1
+
+; nameservers
+ns1		A	10.137.13.1
+ns2		A	10.137.10.1
+ns3		A	10.137.12.1
 
 ; gateways
-gate01			A 	10.137.10.1
-			AAAA	fde8:21c6:9d82::0a01
-;			AAAA	2001:bf7:70::0a01
+gate01		A 	10.137.10.1
+		AAAA	fde8:21c6:9d82::0a01
+;		AAAA	2001:bf7:70::0a01
 
-gate02			A 	10.137.11.1
-			AAAA	fde8:21c6:9d82::0b01
-;			AAAA	2001:bf7:70::0a02
+gate02		A 	10.137.11.1
+		AAAA	fde8:21c6:9d82::0b01
+;		AAAA	2001:bf7:70::0a02
 
-gate03			A 	10.137.12.1
-			AAAA	fde8:21c6:9d82::0c01
-;			AAAA	2001:bf7:70::0a03
+gate03		A 	10.137.12.1
+		AAAA	fde8:21c6:9d82::0c01
+;		AAAA	2001:bf7:70::0a03
+
+gate04		A 	10.137.13.1
+		AAAA	fde8:21c6:9d82::0d01
+;		AAAA	2001:bf7:70::0a04
+;		AAAA	2a01:4f8:130:6372::2
+
+gate05		A 	10.137.14.1
+		AAAA	fde8:21c6:9d82::0e01
+;		AAAA	2001:bf7:70::0a05
 
 ; services (no CNAMEs to make this IPv6 only)
-1.ntp.services		AAAA	fde8:21c6:9d82::0a01
-			AAAA	fde8:21c6:9d82::0b01
+1.ntp.services	AAAA	fde8:21c6:9d82::0c01
+		AAAA	fde8:21c6:9d82::0d01
+		AAAA	fde8:21c6:9d82::0e01
+
+1.updates.services	A	10.137.12.1
 			AAAA	fde8:21c6:9d82::0c01
 
-1.updates.services	AAAA	fde8:21c6:9d82::0a01 ; gate01
+1.download.services	A	10.137.12.1
+			AAAA	fde8:21c6:9d82::0c01
+
+; _service._proto.name TTL class SRV priority weight port target
+_ldap._tcp.ffpi.	14400 IN SRV	10 0	389  ldap.ffpi.
+_xmpp-client._tcp.ffpi.	86400 IN SRV	5  0	5222 srv02.ffpi.
+_xmpp-server._tcp.ffpi.	86400 IN SRV	5  0	5269 srv02.ffpi.
 
 ; servers
-srv01			A	10.137.1.10
-			AAAA	fde8:21c6:9d82::0a01 ; gate01
-wiki			A	10.137.1.10
-			AAAA	fde8:21c6:9d82::0a01 ; gate01
+forum		A	10.137.13.1
+		AAAA	fde8:21c6:9d82::0d01
+ldap		A	10.137.14.1
+mail		A 	10.137.13.1
+		AAAA	fde8:21c6:9d82::0d01
+map		A	10.137.12.1
+		AAAA	fde8:21c6:9d82::0c01
+pad		CNAME	srv02
+service		A 	10.137.13.1
+		AAAA	fde8:21c6:9d82::0d01
+sip		A	10.137.14.1
+srv01		A	10.137.10.1
+		AAAA	fde8:21c6:9d82::0a01
+srv02		A	10.137.0.12
+		AAAA	fde8:21c6:9d82::000c
+wiki		A	10.137.12.1
+		AAAA	fde8:21c6:9d82::0c01
+www		A	10.137.13.1
+		AAAA	fde8:21c6:9d82::0d01
+speedtest	A	10.137.13.1
+		AAAA	fde8:21c6:9d82::0d01
+nic		A	10.137.13.1
+		AAAA	fde8:21c6:9d82::0d01
+xmpp		CNAME	srv02
+1.tracker	A	10.137.5.100
+		AAAA	fde8:21c6:9d82:0:322d:4e3f:80e1:69e3
+
+; sonstiges
+elbecam		A	10.137.5.103
