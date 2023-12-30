@@ -20,28 +20,57 @@
 ;  2016-01-24   Umzug gate03 auf neuen Server (servdiscount)          tho
 ;  2016-04-05   Pad auf Gate04 redirected			      michel
 ;  2016-04-26   groups.xmpp hinzugefügt für xmpp chat rooms           michel
+;  2016-07-05   gate06 "Wedeler Tor" eingebaut                        tho
+;  2016-07-11   jenkins						      michel
+;  2016-08-02	proxy.xmpp					      michel
+;  2016-08-17	xmpp wildcard					      michel
+;  2016-09-26   Pad wieder auf xmpp				      michel
+;  2016-11-10   Zabbix extern erreichbar			      michel
+;  2016-11-29   SPF eingebaut aufgrund Problemen mit gmail            tho
+;  2016-12-11   Umzug Gate01 auf neuen Server                         tho
+;  2016-12-28   Google Verifizierung/Anti-Spam                        kevin
+;  2017-05-09   Umzug srv02 auf anderen Server                        michel
+;  2017-06-17   Umzug srv02 auf anderen Server			      michel
+;  2017-07-24   portal für künftigen Betreiberzugang eingebaut        tho
+;  2017-08-05   NS-Record für die dynamische Subdomain dyn            tho
+;  2019-10-28   beta subdomain für homepage			      kevin
+;  2019-10-31	speedtest GW04					      kevin
+;  2020-01-24	DNS Certification Authority Authorization	      kevin
+;  2021-12-25   git eingebaut                                         tho
+;  2023-08-08   gate01 und gate05 deaktiviert                         tho
+;  2023-11-01   gate01 mit neuer Adresse                              tho
+;  2023-11-06   wiki auf gate01 verlagert                             tho
+;  2023-11-13   git, download, map und portal auf gate01 verlagert    tho
+;  2023-12-03   meshviewer auf gate01 verlagert                       tho
 ;
 
 ;
 $ORIGIN pinneberg.freifunk.net.
 $TTL 1D
+@	IN	TYPE257	\# 22 000569737375656C657473656E63727970742E6F7267
 @	IN	SOA	ns1.pinneberg.freifunk.net. hostmaster.pinneberg.freifunk.net. (
-			2016042601	; <yyyymmdd><serial>
-			8h		; refresh
+			2023120301	; <yyyymmdd><serial>
+			1h		; refresh
 			30m		; retry
-			1w		; expire
+			4w		; expire
 			15m )		; nxdomain ttl
 ;
 		NS	ns1.pinneberg.freifunk.net.
-		NS	ns2.pinneberg.freifunk.net.
+;		NS	ns2.pinneberg.freifunk.net.
 		NS	ns3.pinneberg.freifunk.net.
 		MX	50 mail.pinneberg.freifunk.net.
 		TXT	"Freifunk Community Pinneberg, Germany"
+
+;Subdomain mit eigener Zonendatei
+dyn		NS	ns1.pinneberg.freifunk.net.
 
 ;
 localhost	A	127.0.0.1
 @		A	213.133.108.18
 		AAAA	2a01:4f8:130:6372::2
+		TXT	"v=spf1 a mx ptr ?all"
+		TXT	"google-site-verification=7oHFCrXtNOmqqFIQeu9gex8SIWhuubKg7Ld0UzU83uI"
+
 
 mail		A	213.133.108.18
 		AAAA	2a01:4f8:130:6372::2
@@ -49,48 +78,54 @@ imap		CNAME	mail
 
 ns1		A	213.133.108.18
 		AAAA    2a01:4f8:130:6372::2
-ns2		A	81.7.16.37
-		AAAA	2a02:180:1:1::517:1025
+;ns2		A	81.7.14.115
+;		AAAA	2a02:180:6:1::a8
 ns3		A	85.114.135.191
 		AAAA	2001:4ba0:fff5:ab::1
 
-gate01		A	81.7.16.37
-		AAAA	2a02:0180:1:1::517:1025
-gw01		A	81.7.16.37
-		AAAA	2a02:0180:1:1::517:1025
+gate01		A	195.243.217.45
+;		AAAA	2a02:180:6:1::a8
 gate03		A	85.114.135.191
-		AAAA	2001:4ba0:fff5:ab::1
-gw03		A	85.114.135.191
 		AAAA	2001:4ba0:fff5:ab::1
 gate04		A	213.133.108.18
 		AAAA    2a01:4f8:130:6372::2
 gw04		A	213.133.108.18
 		AAAA    2a01:4f8:130:6372::2
-gate05		A	217.172.186.141
-gw05		A	217.172.186.141
+;gate05		A	217.172.186.141
+gate06		A	81.7.11.146
+		AAAA	2a02:180:1:1::517:b92
 		
-icvpn1		A	81.7.16.37
-		AAAA	2a02:0180:1:1::517:1025
+;icvpn1		A	81.7.14.115
+;		AAAA	2a02:180:6:1::a8
 icvpn2		A	213.133.108.18
 		AAAA    2a01:4f8:130:6372::2
 
-www		A	213.133.108.18
-		AAAA	2a01:4f8:130:6372::2
+www		A       213.133.108.18
+                AAAA    2a01:4f8:130:6372::2
+beta		A       213.133.108.18
+                AAAA    2a01:4f8:130:6372::2
 forum		A	213.133.108.18
 		AAAA    2a01:4f8:130:6372::2
 piwik		A	213.133.108.18
 		AAAA    2a01:4f8:130:6372::2
 service		A	213.133.108.18
 		AAAA    2a01:4f8:130:6372::2
+speedtest	A       213.133.108.18
+                AAAA    2a01:4f8:130:6372::2
 
+map			A	195.243.217.45
+meshviewer	1800	A	195.243.217.45
+wiki			A	195.243.217.45
+			TXT	"google-site-verification=MABCgHjc75R_OXj1VSwloTu_V_Mg7nvGXKBQzHb70W4"
+download		A	195.243.217.45
+portal			A	195.243.217.45
 
-map		A	85.114.135.191
-meshviewer	A	85.114.135.191
-wiki		A	85.114.135.191
-		TXT	"google-site-verification=MABCgHjc75R_OXj1VSwloTu_V_Mg7nvGXKBQzHb70W4"
-download	A	85.114.135.191
 gate04.download	CNAME	gate04
 tracker		CNAME	gate04
-xmpp		A	5.9.177.34
-groups.xmpp     CNAME   xmpp
-pad		CNAME	gate04
+xmpp            A       148.251.8.28 
+                AAAA    2a01:4f8:201:6209:8::28
+*.xmpp	        CNAME   xmpp
+git		A	195.243.217.45
+pad		CNAME	xmpp
+jenkins		CNAME   xmpp
+zabbix		CNAME   xmpp
