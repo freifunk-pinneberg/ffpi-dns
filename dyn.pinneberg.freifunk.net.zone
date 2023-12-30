@@ -1,0 +1,20 @@
+$ORIGIN dyn.pinneberg.freifunk.net.
+$TTL 90 ; seconds
+@	IN	SOA	ns1.pinneberg.freifunk.net. hostmaster.pinneberg.freifunk.net. (
+			2017080608	; <yyyymmdd> serial
+			1h		; refresh
+			30m		; retry
+			4d		; expire
+			15m		; nxdomain ttl
+			)
+		NS	ns1.pinneberg.freifunk.net.
+		TXT	"Dynamic Domain Freifunk Community Pinneberg, Germany"
+
+test		A	91.57.220.32
+test2		A	91.57.220.32
+
+$ORIGIN pinneberg.freifunk.net
+ns1	A	213.133.108.18
+
+$ORIGIN dyn.pinneberg.freifunk.net.
+;dynamic part

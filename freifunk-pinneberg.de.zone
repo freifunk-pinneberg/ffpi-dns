@@ -14,20 +14,26 @@
 ;  2015-09-14   Mail auf gate04 umgestellt                            tho
 ;  2015-10-24   Servernamen für Intercity-VPN eingerichtet            tho
 ;  2016-01-24   Umzug gate03 auf neuen Server (servdiscount)          tho
+;  2016-07-05   gate06 "Wedeler Tor" eingebaut                        tho
+;  2016-12-11   Umzug Gate01 auf neuen Server                         tho
+;  2017-07-24   portal für künftigen Betreiberzugang eingebaut        tho
+;  2023-08-08   gate01 und gate05 deaktiviert                         tho
+;  2023-11-03   gate01 mit neuer Adresse                              tho
+;  2023-11-13   download und portal auf gate01 verlagert              tho
 ;
 
 ;
 $ORIGIN freifunk-pinneberg.de.
 $TTL 1D
 @	IN	SOA	ns1.freifunk-pinneberg.de hostmaster.freifunk-pinneberg.de. (
-			2016012401	; <yyyymmdd><serial> serial number of this zone file
+			2023111302	; <yyyymmdd><serial> serial number of this zone file
 			4h		; slave refresh
 			30m		; slave retry time in case of a problem
 			7d		; slave expiration time
 			5m )		; nxdomain ttl
 ;
 		NS	ns1.freifunk-pinneberg.de.
-		NS	ns2.freifunk-pinneberg.de.
+;		NS	ns2.freifunk-pinneberg.de.
 		MX	10 mail.freifunk-pinneberg.de.
 		TXT	"Freifunk Community Pinneberg, Germany"
 
@@ -38,7 +44,7 @@ localhost	A	127.0.0.1
 
 ns1		A	213.133.108.18
 ;1blue not supportet	AAAA	2a01:4f8:130:6372::2
-ns2		A	81.7.16.37
+;ns2		A	81.7.14.115
 ;1blue not supportet	AAAA	2a02:180:1:1::517:1025
 
 ; ex. 1blue
@@ -52,18 +58,21 @@ www		A	213.133.108.18
 
 ; Freifunk sonst.
 forum		A	85.13.135.113
-download	A	85.114.135.191
+download 1800	A	195.243.217.45
+portal	1800	A	195.243.217.45
 
 ; ffpi
-gate01		A	81.7.16.37
-		AAAA	2a02:180:1:1::517:1025
+gate01		A	195.243.217.45
+;		AAAA	2a02:180:6:1::a8
 gate03		A	85.114.135.191
 		AAAA	2001:4ba0:fff5:ab::1
 gate04		A	213.133.108.18
 		AAAA	2a01:4f8:130:6372::2
-gate05		A	217.172.186.141
+;gate05		A	217.172.186.141
+gate06		A	81.7.11.146
+		AAAA	2a02:180:1:1::517:b92
 
-icvpn1		A	81.7.16.37
-		AAAA	2a02:0180:1:1::517:1025
+;icvpn1		A	81.7.14.115
+;		AAAA	2a02:180:6:1::a8
 icvpn2		A	213.133.108.18
 		AAAA    2a01:4f8:130:6372::2

@@ -1,23 +1,34 @@
-;
 ; Reverse zone file for 10.137.0.0/16
 ;
-$TTL 3h
+; Edition History
+; ===============
+;
+;  Date         Changes                                               by 
+; ------------ ----------------------------------------------------- -----
+;  2015-06-22   Zonendatei erstellt                                   tho
+;  2016-07-05   gate06 "Wedeler Tor" eingebaut                        tho
+;  2016-12-17   Zone korrigiert, Einträge waren verkehrt herum        tho
+;
+
+;
+$TTL 6h
 @	IN	SOA	ns1.ffpi. hostmaster.ffpi. (
-			2015081601	; <yyyymmdd><serial> serial number of this zone file
-			1h		; slave refresh
-			3m		; slave retry time in case of a problem
+			2016121701	; <yyyymmdd><serial> serial number of this zone file
+			2h		; slave refresh
+			10m		; slave retry time in case of a problem
 			1h		; slave expiration time
-			1m )		; nxdomain ttl
+			5m )		; nxdomain ttl
 		NS	ns1.ffpi.
 		NS	ns2.ffpi.
 		NS	ns3.ffpi.
 
 1.0		PTR	nextnode.ffpi.
-10.1		PTR	gate01.ffpi.
-11.1		PTR	gate02.ffpi.
-12.1		PTR	gate03.ffpi.
-13.1		PTR	gate04.ffpi.
-14.1		PTR	gate05.ffpi.
+1.10		PTR	gate01.ffpi.
+1.11		PTR	gate02.ffpi.
+1.12		PTR	gate03.ffpi.
+1.13		PTR	gate04.ffpi.
+1.14		PTR	gate05.ffpi.
+1.15		PTR	gate06.ffpi.
 
-1.10		PTR	srv01.ffpi.
-0.12		PTR	srv02.ffpi.
+3.10		PTR	srv01.ffpi.
+12.0		PTR	srv02.ffpi.
