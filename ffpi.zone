@@ -11,143 +11,148 @@
 ;  2015-08-22   SRV-Records angelegt für ldap und xmpp                tho
 ;  2015-09-19   pad integriert                                        kevin
 ;  2015-11-14   1.download.services für u.a. OpenWRT Pakete           tho
-;  2015-12-09	1.tracker Torrent Tracker (Testbetrieb)		      kevin
+;  2015-12-09   1.tracker Torrent Tracker (Testbetrieb)               kevin
 ;  2016-01-24   map hinzugefügt                                       tho
-;  2016-02-13	Speedtest					      kevin
+;  2016-02-13   Speedtest                                             kevin
 ;  2016-02-24   Elbecam Kollmar vorbereitet                           tho
-;  2016-04-24	nic.ffpi					      kevin
+;  2016-04-24   nic.ffpi                                              kevin
 ;  2016-07-05   gate06 "Wedeler Tor" eingebaut                        tho
-;  2016-07-11	jenkins.ffpi					      michel
-;  2016-07-19   zabbix.ffpi					      michel
-;  2016-11-09   Add 2. download mirror				      kevin
+;  2016-07-11   jenkins.ffpi                                          michel
+;  2016-07-19   zabbix.ffpi                                           michel
+;  2016-11-09   Add 2. download mirror                                kevin
 ;  2016-12-17   Altes gate01 als srv01 eingebaut bzw. games.ffpi      tho
-;  2017-01-01	DCF77-Empfänger (an Raspberry)                        tho
-;  2019-11-02   gw03.speedtest					      kevin
+;  2017-01-01   DCF77-Empfänger (an Raspberry)                        tho
+;  2019-11-02   gw03.speedtest                                        kevin
 ;  2023-08-08   gate01 und gate05 deaktiviert                         tho
 ;  2023-11-01   gate01 reaktiviert                                    tho
 ;  2023-11-13   download auf gate01 verlagert                         tho
-;
+;  2024-01-15   primärer download vorrübergehend zu gate04            kevin
+;  2024-03-04   gate07 hinzugefügt                                    kevin
+;  2024-07-20   download mirrors nun gate04 und gate07                kevin
+;  2024-07-21   gate07 als ns2                                        kevin
+;  2024-07-25   gw07 speedtest
 
 ;
 $ORIGIN ffpi.
 $TTL 1D
-@	IN	SOA	ns1.ffpi. hostmaster.ffpi. (
-			2023111301	; <yyyymmdd><serial> serial number of this zone file
-			8h		; slave refresh
-			30m		; slave retry time in case of a problem
-			1w		; slave expiration time
-			15m )		; nxdomain ttl
+@       IN      SOA     ns1.ffpi. hostmaster.ffpi. (
+                        2024072502      ; <yyyymmdd><serial> serial number of this zone file
+                        8h              ; slave refresh
+                        30m             ; slave retry time in case of a problem
+                        1w              ; slave expiration time
+                        15m )           ; nxdomain ttl
 ;
-		NS	ns1.ffpi.
-;		NS	ns2.ffpi.
-		NS	ns3.ffpi.
+                NS      ns1.ffpi.
+                NS      ns2.ffpi.
+                NS      ns3.ffpi.
 
-		MX	50 mail.ffpi.
+                MX      50 mail.ffpi.
 
 ; magic
-node		A	10.137.0.1
-		AAAA	fde8:21c6:9d82::1
+node            A       10.137.0.1
+                AAAA    fde8:21c6:9d82::1
 
 ; nameservers
-ns1		A	10.137.13.1
-; ns2		A	10.137.10.1
-ns3		A	10.137.12.1
+ns1             A       10.137.13.1
+ns2             A       10.137.16.1
+ns3             A       10.137.12.1
 
 ; gateways
-gate01		A 	10.137.10.1
-		AAAA	fde8:21c6:9d82::0a01
+gate01          A       10.137.10.1
+                AAAA    fde8:21c6:9d82::0a01
 
-gate02		A 	10.137.11.1
-		AAAA	fde8:21c6:9d82::0b01
-;		AAAA	2001:bf7:70::0a02
+gate02          A       10.137.11.1
+                AAAA    fde8:21c6:9d82::0b01
+;               AAAA    2001:bf7:70::0a02
 
-gate03		A 	10.137.12.1
-		AAAA	fde8:21c6:9d82::0c01
-;		AAAA	2001:bf7:70::0a03
+gate03          A       10.137.12.1
+                AAAA    fde8:21c6:9d82::0c01
+;               AAAA    2001:bf7:70::0a03
 
-gate04		A 	10.137.13.1
-		AAAA	fde8:21c6:9d82::0d01
-;		AAAA	2001:bf7:70::0a04
-;		AAAA	2a01:4f8:130:6372::2
+gate04          A       10.137.13.1
+                AAAA    fde8:21c6:9d82::0d01
+;               AAAA    2001:bf7:70::0a04
+;               AAAA    2a01:4f8:130:6372::2
 
-;gate05		A 	10.137.14.1
-;		AAAA	fde8:21c6:9d82::0e01
-;		AAAA	2001:bf7:70::0a05
+;gate05         A       10.137.14.1
+;               AAAA    fde8:21c6:9d82::0e01
+;               AAAA    2001:bf7:70::0a05
 
-gate06		A	10.137.15.1
-		AAAA	fde8:21c6:9d82::0f01
-;		AAAA	2001:bf7:70::0a06
+gate06          A       10.137.15.1
+                AAAA    fde8:21c6:9d82::0f01
+;               AAAA    2001:bf7:70::0a06
+
+gate07          A       10.137.16.1
+                AAAA    fde8:21c6:9d82::1001
 
 ; services (no CNAMEs to make this IPv6 only)
-1.ntp.services	AAAA	fde8:21c6:9d82::0c01
-		AAAA	fde8:21c6:9d82::0d01
-;		AAAA	fde8:21c6:9d82::0e01
+1.ntp.services  AAAA    fde8:21c6:9d82::0c01
+                AAAA    fde8:21c6:9d82::0d01
+;               AAAA    fde8:21c6:9d82::0e01
+                AAAA    fde8:21c6:9d82::1001
 
 
-1.updates.services	A	10.137.10.1
-			AAAA	fde8:21c6:9d82::0a01
+1.updates.services      CNAME   gate04
 
-1.download.services	A	10.137.10.1
-			AAAA	fde8:21c6:9d82::0a01
+1.download.services     CNAME   gate04
 
-2.updates.services	A       10.137.13.1
+2.updates.services      CNAME   gate07
+
+2.download.services     CNAME   gate07
+
+
+updates.services        A       10.137.13.1
                         AAAA    fde8:21c6:9d82::0d01
+                        A       10.137.16.1
+                        AAAA    fde8:21c6:9d82::1001
 
-2.download.services	A	10.137.13.1
-			AAAA	fde8:21c6:9d82::0d01
-
-updates.services        A	10.137.10.1
-			AAAA	fde8:21c6:9d82::0a01
-			A	10.137.13.1
-                        AAAA	fde8:21c6:9d82::0d01
-
-download.services       A       10.137.10.1
-                        AAAA    fde8:21c6:9d82::0a01
-                        A       10.137.13.1
+download.services       A       10.137.13.1
                         AAAA    fde8:21c6:9d82::0d01
+                        A       10.137.16.1
+                        AAAA    fde8:21c6:9d82::1001
 
 
 ; _service._proto.name TTL class SRV priority weight port target
-_ldap._tcp.ffpi.	14400 IN SRV	10 0	389  ldap.ffpi.
-_xmpp-client._tcp.ffpi.	86400 IN SRV	5  0	5222 srv02.ffpi.
-_xmpp-server._tcp.ffpi.	86400 IN SRV	5  0	5269 srv02.ffpi.
+_ldap._tcp.ffpi.        14400 IN SRV    10 0    389  ldap.ffpi.
+_xmpp-client._tcp.ffpi. 86400 IN SRV    5  0    5222 srv02.ffpi.
+_xmpp-server._tcp.ffpi. 86400 IN SRV    5  0    5269 srv02.ffpi.
 
 ; servers
-forum		A	10.137.13.1
-		AAAA	fde8:21c6:9d82::0d01
-;ldap		A	10.137.14.1
-mail		A 	10.137.13.1
-		AAAA	fde8:21c6:9d82::0d01
-map		A	10.137.12.1
-		AAAA	fde8:21c6:9d82::0c01
-pad		CNAME	srv02
-service		A 	10.137.13.1
-		AAAA	fde8:21c6:9d82::0d01
-;sip		A	10.137.14.1
-srv01		A	10.137.10.3
-		AAAA	fde8:21c6:9d82::0a03
-games		CNAME	srv01
-srv02		A	10.137.0.12
-		AAAA	fde8:21c6:9d82::000c
-wiki		A	10.137.10.1
-		AAAA	fde8:21c6:9d82::0a01
-www		A	10.137.13.1
-		AAAA	fde8:21c6:9d82::0d01
-speedtest	A	10.137.13.1
-		AAAA	fde8:21c6:9d82::0d01
-;gw03.speedtest	A       10.137.12.1
-;                AAAA    fde8:21c6:9d82::0c01
-;gw05.speedtest	A	10.137.14.1
-;                AAAA    fde8:21c6:9d82::0e01
+forum           A       10.137.13.1
+                AAAA    fde8:21c6:9d82::0d01
+;ldap           A       10.137.14.1
+mail            A       10.137.13.1
+                AAAA    fde8:21c6:9d82::0d01
+map             A       10.137.12.1
+                AAAA    fde8:21c6:9d82::0c01
+pad             CNAME   srv02
+service         A       10.137.13.1
+                AAAA    fde8:21c6:9d82::0d01
+;sip            A       10.137.14.1
+srv01           A       10.137.10.3
+                AAAA    fde8:21c6:9d82::0a03
+games           CNAME   srv01
+srv02           A       10.137.0.12
+                AAAA    fde8:21c6:9d82::000c
+wiki            A       10.137.10.1
+                AAAA    fde8:21c6:9d82::0a01
+www             A       10.137.13.1
+                AAAA    fde8:21c6:9d82::0d01
 
-nic		A	10.137.13.1
-		AAAA	fde8:21c6:9d82::0d01
-xmpp		CNAME	srv02
-jenkins 	CNAME	srv02
-zabbix		CNAME   srv02
-1.tracker	A	10.137.5.100
-		AAAA	fde8:21c6:9d82:0:322d:4e3f:80e1:69e3
+speedtest               CNAME   gate04
+;gate03.speedtest       CNAME   gate03
+gate04.speedtest        CNAME   gate04
+;gate05.speedtest       CNAME   gate05
+gate07.speedtest        CNAME   gate07
+
+nic             A       10.137.13.1
+                AAAA    fde8:21c6:9d82::0d01
+xmpp            CNAME   srv02
+jenkins         CNAME   srv02
+zabbix          CNAME   srv02
+1.tracker       A       10.137.5.100
+                AAAA    fde8:21c6:9d82:0:322d:4e3f:80e1:69e3
 
 ; sonstiges
-elbecam		A	10.137.5.103
-dcf77		A	10.137.5.104
+elbecam         A       10.137.5.103
+dcf77           A       10.137.5.104
